@@ -199,3 +199,38 @@ body {
     max-width: 85%;
   }
 }
+/* ===== Logo EcoBot ===== */
+
+.logo-img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+/* ===== Cabecera ===== */
+
+.bot-info,
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* ===== Avatares ===== */
+
+.bot-avatar,
+.user-avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,.25);
+}
+
+/* ===== Nombre del usuario ===== */
+
+.user-info span{
+    font-weight:bold;
+    font-size:15px;
+}
