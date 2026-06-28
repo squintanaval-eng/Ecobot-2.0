@@ -9,7 +9,11 @@ export default async function handler(req, res) {
     const { message } = req.body;
 
     if (!message) {
-      return res.status(400).json({ error: "No se recibió mensaje" });
+      return res.status(400).json({ error: "Mensaje vacío" });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: "Falta la API Key de Gemini" });
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -19,21 +23,22 @@ export default async function handler(req, res) {
     });
 
     const prompt = `
-Eres EcoBot, un asistente amable, claro y útil.
-Responde en español de forma natural.
-No seas demasiado largo salvo que el usuario lo pida.
+Eres EcoBot, un asistente amable, útil y claro.
+Responde siempre en español.
+Tu estilo debe ser cercano, natural y fácil de entender.
+No respondas demasiado largo salvo que el usuario lo pida.
 
 Usuario: ${message}
 `;
 
     const result = await model.generateContent(prompt);
-    const response = result.response.text();
+    const reply = result.response.text();
 
-    return res.status(200).json({ reply: response });
+    return res.status(200).json({ reply });
   } catch (error) {
-    console.error(error);
+    console.error("Error en EcoBot:", error);
     return res.status(500).json({
-      error: "Error al conectar con Gemini"
+      error: "EcoBot tuvo un problema conectando con Gemini."
     });
   }
 }
