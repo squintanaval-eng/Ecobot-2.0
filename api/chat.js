@@ -1,5 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Método no permitido" });
@@ -12,28 +10,53 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Mensaje vacío" });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({ error: "Falta GEMINI_API_KEY en Vercel." });
+    }
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Eres EcoBot, un asistente amable y claro. Responde en español de forma natural.\n\nUsuario: ${message}`
+                }
+              ]
+            }
+          ],
+          generationConfig: {
+            maxOutputTokens: 500,
+            temperature: 0.7
+          }
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
       return res.status(500).json({
-        error: "No se encontró GEMINI_API_KEY en Vercel."
+        error: data.error?.message || "Error de Gemini"
       });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-    const model = genAI.getGenerativeModel({
-model: "gemini-3.5-flash"
-    });
-
-    const result = await model.generateContent(
-      `Responde en español como EcoBot, amable y claro: ${message}`
-    );
-
-    const reply = result.response.text();
+    const reply =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No pude generar una respuesta.";
 
     return res.status(200).json({ reply });
   } catch (error) {
     return res.status(500).json({
-      error: error.message || "Error desconocido con Gemini"
+      error: error.message || "Error desconocido"
     });
   }
 }
