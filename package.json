@@ -1,9 +1,8 @@
 {
-  "scripts": {
-    "start": "node server.js"
-  },
+  "name": "ecobot",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
-    "@google/generative-ai": "latest",
-    "express": "latest"
+    "@google/generative-ai": "^0.24.1"
   }
 }
