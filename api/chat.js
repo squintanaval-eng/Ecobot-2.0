@@ -13,7 +13,9 @@ export default async function handler(req, res) {
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: "Falta la API Key de Gemini" });
+      return res.status(500).json({
+        error: "No se encontró GEMINI_API_KEY en Vercel."
+      });
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -22,23 +24,16 @@ export default async function handler(req, res) {
       model: "gemini-1.5-flash"
     });
 
-    const prompt = `
-Eres EcoBot, un asistente amable, útil y claro.
-Responde siempre en español.
-Tu estilo debe ser cercano, natural y fácil de entender.
-No respondas demasiado largo salvo que el usuario lo pida.
+    const result = await model.generateContent(
+      `Responde en español como EcoBot, amable y claro: ${message}`
+    );
 
-Usuario: ${message}
-`;
-
-    const result = await model.generateContent(prompt);
     const reply = result.response.text();
 
     return res.status(200).json({ reply });
   } catch (error) {
-    console.error("Error en EcoBot:", error);
     return res.status(500).json({
-      error: "EcoBot tuvo un problema conectando con Gemini."
+      error: error.message || "Error desconocido con Gemini"
     });
   }
 }
