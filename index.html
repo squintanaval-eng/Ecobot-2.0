@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoBot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <span>🌿</span>
+        <h1>EcoBot</h1>
+      </div>
 
+      <button class="new-chat">+ Nuevo chat</button>
+
+      <div class="info-card">
+        <h3>Asistente ecológico</h3>
+        <p>Pregunta lo que quieras. EcoBot está aquí para ayudarte.</p>
+      </div>
+    </aside>
+
+    <main class="chat-container">
+      <header class="chat-header">
+        <div>
+          <h2>EcoBot IA</h2>
+          <p>Tu asistente inteligente personal</p>
+        </div>
+        <span class="status">● Online</span>
+      </header>
+
+      <section class="messages" id="messages">
+        <div class="message bot">
+          <div class="avatar">🤖</div>
+          <div class="bubble">
+            ¡Hola! Soy EcoBot 🌿 ¿En qué puedo ayudarte hoy?
+          </div>
+        </div>
+      </section>
+
+      <form class="input-area" id="chatForm">
+        <input 
+          type="text" 
+          id="userInput" 
+          placeholder="Escribe tu mensaje..." 
+          autocomplete="off"
+        />
+        <button type="submit">➤</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
