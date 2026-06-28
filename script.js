@@ -6,7 +6,7 @@ chatForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const text = userInput.value.trim();
-  if (text === "") return;
+  if (!text) return;
 
   addMessage(text, "user");
   userInput.value = "";
@@ -25,7 +25,7 @@ chatForm.addEventListener("submit", async function (e) {
     const data = await response.json();
 
     loadingMessage.querySelector(".bubble").textContent =
-      data.reply || "No pude responder ahora mismo.";
+      data.reply || data.error || "No pude responder ahora mismo.";
   } catch (error) {
     loadingMessage.querySelector(".bubble").textContent =
       "Hubo un error conectando con la IA.";
