@@ -151,15 +151,20 @@ body {
 }
 
 .bubble {
-  display: block;
-  max-width: 75%;
-  width: fit-content;
-  padding: 16px 20px;
-  border-radius: 18px;
-  line-height: 1.7;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: normal;
+    display: inline-block;
+    width: auto;
+    max-width: 700px;
+    min-width: 80px;
+
+    padding: 16px 20px;
+    border-radius: 18px;
+
+    line-height: 1.7;
+
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 }
 
 .bot .bubble {
