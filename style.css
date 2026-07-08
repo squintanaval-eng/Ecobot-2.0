@@ -321,4 +321,50 @@ body {
   width: 42px;
   height: 42px;
   border-radius: 50%;
+} .message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 78%;
+  width: fit-content;
+  padding: 16px 20px;
+  border-radius: 18px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.bot .bubble {
+  max-width: 72%;
+}
+
+.user .bubble {
+  max-width: 55%;
+}
+
+.bot-avatar.chat,
+.user-avatar.chat {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message.user .user-avatar.chat {
+  order: 2;
+}
+
+.messages {
+  scroll-behavior: smooth;
 }
