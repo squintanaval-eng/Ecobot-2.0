@@ -24,8 +24,12 @@ chatForm.addEventListener("submit", async function (e) {
 
     const data = await response.json();
 
-    loadingMessage.querySelector(".bubble").textContent =
-      data.reply || data.error || "No pude responder ahora mismo.";
+   const cleanReply = (data.reply || data.error || "No pude responder ahora mismo.")
+  .replace(/\n+/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+loadingMessage.querySelector(".bubble").textContent = cleanReply;
   } catch (error) {
     loadingMessage.querySelector(".bubble").textContent =
       "Hubo un error conectando con la IA.";
