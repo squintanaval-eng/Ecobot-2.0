@@ -47,10 +47,10 @@ Usuario: ${message}`
               ]
             }
           ],
-          generationConfig: {
-            maxOutputTokens: 500,
-            temperature: 0.7
-          }
+        generationConfig: {
+    temperature: 0.7,
+    maxOutputTokens: 2048
+}
         })
       }
     );
