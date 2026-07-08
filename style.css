@@ -2,13 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Nunito", "Segoe UI", sans-serif;
 }
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f2f24, #12372a, #1f6f4a);
-  color: white;
+  background: linear-gradient(135deg, #eefaf1, #d9f2df, #b7e4c7);
+  color: #10251a;
 }
 
 .app {
@@ -20,26 +20,47 @@ body {
 
 .sidebar {
   width: 280px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(46, 125, 78, 0.18);
   border-radius: 24px;
   padding: 24px;
-  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 35px rgba(20, 80, 45, 0.12);
+}
+
+.logo,
+.bot-info,
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin-bottom: 30px;
 }
 
-.logo span {
-  font-size: 32px;
+.logo h1,
+.chat-header h2 {
+  color: #12351f;
 }
 
-.logo h1 {
-  font-size: 28px;
+.logo-img,
+.bot-avatar,
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  border: 2px solid rgba(46, 125, 78, 0.25);
+}
+
+.bot-avatar.chat,
+.user-avatar.chat {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
 }
 
 .new-chat {
@@ -47,15 +68,17 @@ body {
   padding: 14px;
   border: none;
   border-radius: 14px;
-  background: #56d364;
-  color: #072015;
-  font-weight: bold;
+  background: linear-gradient(135deg, #62d96b, #37b34a);
+  color: #062015;
+  font-weight: 800;
   cursor: pointer;
   margin-bottom: 24px;
 }
 
 .info-card {
-  background: rgba(0, 0, 0, 0.22);
+  background: linear-gradient(135deg, #ffffff, #e6f6eb);
+  color: #12351f;
+  border: 1px solid rgba(46, 125, 78, 0.14);
   border-radius: 18px;
   padding: 18px;
 }
@@ -73,11 +96,11 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.72);
   border-radius: 24px;
   overflow: hidden;
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(46, 125, 78, 0.18);
+  box-shadow: 0 12px 35px rgba(20, 80, 45, 0.12);
 }
 
 .chat-header {
@@ -85,11 +108,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0, 0, 0, 0.18);
-}
-
-.chat-header h2 {
-  font-size: 24px;
+  background: linear-gradient(135deg, #ffffff, #e9f8ee);
+  border-bottom: 1px solid rgba(46, 125, 78, 0.12);
 }
 
 .chat-header p {
@@ -97,21 +117,28 @@ body {
   opacity: 0.75;
 }
 
-.status {
-  color: #56d364;
-  font-size: 14px;
+.user-info span {
+  font-weight: 800;
+  font-size: 15px;
 }
 
 .messages {
   flex: 1;
   padding: 28px;
   overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background:
+    radial-gradient(circle at top right, rgba(86, 211, 100, 0.16), transparent 35%),
+    linear-gradient(135deg, #f8fff9, #e9f7ee);
 }
 
 .message {
+  width: 100%;
   display: flex;
+  align-items: flex-start;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
   animation: fadeIn 0.25s ease;
 }
 
@@ -119,54 +146,67 @@ body {
   justify-content: flex-end;
 }
 
-.avatar {
-  font-size: 24px;
-}
-
-.message.user .avatar {
+.message.user .user-avatar.chat {
   order: 2;
 }
 
 .bubble {
-  max-width: 70%;
-  padding: 14px 18px;
+  display: block;
+  max-width: 75%;
+  width: fit-content;
+  padding: 16px 20px;
   border-radius: 18px;
-  line-height: 1.5;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .bot .bubble {
-  background: rgba(255, 255, 255, 0.16);
+  max-width: 72%;
+  background: white;
+  color: #14251a;
+  border: 1px solid rgba(46, 125, 78, 0.16);
+  box-shadow: 0 8px 20px rgba(25, 80, 45, 0.08);
 }
 
 .user .bubble {
-  background: #56d364;
-  color: #062015;
+  max-width: 55%;
+  background: linear-gradient(135deg, #7be27f, #4fd35d);
+  color: #082014;
 }
 
 .input-area {
   display: flex;
   padding: 20px;
   gap: 12px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.78);
+  border-top: 1px solid rgba(46, 125, 78, 0.12);
 }
 
 .input-area input {
   flex: 1;
   padding: 16px;
   border-radius: 16px;
-  border: none;
+  border: 1px solid rgba(46, 125, 78, 0.18);
   outline: none;
   font-size: 16px;
+  background: white;
+  color: #12351f;
 }
 
 .input-area button {
   width: 58px;
   border: none;
   border-radius: 16px;
-  background: #56d364;
+  background: linear-gradient(135deg, #62d96b, #37b34a);
   color: #062015;
   font-size: 20px;
   cursor: pointer;
+}
+
+.message img {
+  flex-shrink: 0;
 }
 
 @keyframes fadeIn {
@@ -195,176 +235,9 @@ body {
     min-height: 70vh;
   }
 
-  .bubble {
+  .bubble,
+  .bot .bubble,
+  .user .bubble {
     max-width: 85%;
   }
-}
-/* ===== Logo EcoBot ===== */
-
-.logo-img{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-/* ===== Cabecera ===== */
-
-.bot-info,
-.user-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-/* ===== Avatares ===== */
-
-.bot-avatar,
-.user-avatar{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid rgba(255,255,255,.25);
-}
-
-/* ===== Nombre del usuario ===== */
-
-.user-info span{
-    font-weight:bold;
-    font-size:15px;
-} body {
-  background: linear-gradient(135deg, #eefaf1, #d9f2df, #b7e4c7);
-  color: #10251a;
-  font-family: "Nunito", sans-serif;
-}
-
-.sidebar,
-.chat-container {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(46, 125, 78, 0.18);
-  box-shadow: 0 12px 35px rgba(20, 80, 45, 0.12);
-}
-
-.chat-header {
-  background: linear-gradient(135deg, #ffffff, #e9f8ee);
-  color: #12351f;
-  border-bottom: 1px solid rgba(46, 125, 78, 0.12);
-}
-
-.messages {
-  background:
-    radial-gradient(circle at top right, rgba(86, 211, 100, 0.16), transparent 35%),
-    linear-gradient(135deg, #f8fff9, #e9f7ee);
-}
-
-.info-card {
-  background: linear-gradient(135deg, #ffffff, #e6f6eb);
-  color: #12351f;
-  border: 1px solid rgba(46, 125, 78, 0.14);
-}
-
-.bot .bubble {
-  background: #ffffff;
-  color: #14251a;
-  border: 1px solid rgba(46, 125, 78, 0.16);
-  box-shadow: 0 8px 20px rgba(25, 80, 45, 0.08);
-}
-
-.user .bubble {
-  background: linear-gradient(135deg, #7be27f, #4fd35d);
-  color: #082014;
-}
-
-.input-area {
-  background: rgba(255, 255, 255, 0.78);
-  border-top: 1px solid rgba(46, 125, 78, 0.12);
-}
-
-.input-area input {
-  background: #ffffff;
-  color: #12351f;
-  border: 1px solid rgba(46, 125, 78, 0.18);
-}
-
-.input-area button,
-.new-chat {
-  background: linear-gradient(135deg, #62d96b, #37b34a);
-  color: #062015;
-}
-
-.logo h1,
-.chat-header h2 {
-  color: #12351f;
-}
-
-.status {
-  color: #2faa45;
-}
-
-.bot-avatar,
-.user-avatar,
-.logo-img {
-  background: white;
-  border: 2px solid rgba(46, 125, 78, 0.25);
-  object-fit: cover;
-}
-
-.user-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-}
-
-.user-avatar.chat,
-.bot-avatar.chat {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-} .message {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-.message.user {
-  justify-content: flex-end;
-}
-
-.bubble {
-  max-width: 78%;
-  width: fit-content;
-  padding: 16px 20px;
-  border-radius: 18px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-  word-break: normal;
-}
-
-.bot .bubble {
-  max-width: 72%;
-}
-
-.user .bubble {
-  max-width: 55%;
-}
-
-.bot-avatar.chat,
-.user-avatar.chat {
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  min-height: 42px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.message.user .user-avatar.chat {
-  order: 2;
-}
-
-.messages {
-  scroll-behavior: smooth;
 }
