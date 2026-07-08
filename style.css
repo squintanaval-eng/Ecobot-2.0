@@ -168,15 +168,14 @@ body {
 }
 
 .bot .bubble {
-  max-width: 72%;
   background: white;
   color: #14251a;
   border: 1px solid rgba(46, 125, 78, 0.16);
   box-shadow: 0 8px 20px rgba(25, 80, 45, 0.08);
 }
+}
 
 .user .bubble {
-  max-width: 55%;
   background: linear-gradient(135deg, #7be27f, #4fd35d);
   color: #082014;
 }
