@@ -1,10 +1,14 @@
+```javascript
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const messages = document.getElementById("messages");
 const newChatBtn = document.getElementById("newChat");
 
-chatForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
+// Aquí se guarda la conversación actual.
+let conversationHistory = [];
+
+chatForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
 
   const text = userInput.value.trim();
 
@@ -13,6 +17,17 @@ chatForm.addEventListener("submit", async function (e) {
   }
 
   addMessage(text, "user");
+
+  // Guardamos el mensaje del usuario en la memoria.
+  conversationHistory.push({
+    role: "user",
+    parts: [
+      {
+        text
+      }
+    ]
+  });
+
   userInput.value = "";
   userInput.disabled = true;
 
@@ -28,7 +43,7 @@ chatForm.addEventListener("submit", async function (e) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: text
+        messages: conversationHistory
       })
     });
 
@@ -40,6 +55,18 @@ chatForm.addEventListener("submit", async function (e) {
       "No pude responder en este momento.";
 
     loadingMessage.querySelector(".bubble").textContent = reply;
+
+    // Guardamos la respuesta de EcoBot en la memoria.
+    if (data.reply) {
+      conversationHistory.push({
+        role: "model",
+        parts: [
+          {
+            text: data.reply
+          }
+        ]
+      });
+    }
   } catch (error) {
     loadingMessage.querySelector(".bubble").textContent =
       "Hubo un error conectando con la inteligencia artificial.";
@@ -81,6 +108,10 @@ function addMessage(text, sender) {
 }
 
 newChatBtn.addEventListener("click", function () {
+  // Borra la memoria de la conversación.
+  conversationHistory = [];
+
+  // Borra los mensajes visibles.
   messages.innerHTML = "";
 
   addMessage(
@@ -91,3 +122,4 @@ newChatBtn.addEventListener("click", function () {
   userInput.value = "";
   userInput.focus();
 });
+```
