@@ -552,3 +552,40 @@ body {
 }
 ```
 
+/* Ajuste para laptops y pantallas medianas */
+@media (max-width: 1200px) {
+  .app {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .sidebar {
+    width: 230px;
+    padding: 18px;
+  }
+
+  .logo h1 {
+    font-size: 24px;
+  }
+
+  .chat-header {
+    padding: 16px 20px;
+  }
+
+  .messages {
+    padding: 20px;
+  }
+
+  .input-area {
+    padding: 14px;
+  }
+
+  .bubble,
+  .bot .bubble {
+    max-width: 80%;
+  }
+
+  .user .bubble {
+    max-width: 70%;
+  }
+}
