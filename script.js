@@ -1,40 +1,28 @@
-```javascript
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const messages = document.getElementById("messages");
 const newChatBtn = document.getElementById("newChat");
 
-// Aquí se guarda la conversación actual.
 let conversationHistory = [];
 
 chatForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const text = userInput.value.trim();
-
-  if (!text) {
-    return;
-  }
+  if (!text) return;
 
   addMessage(text, "user");
 
-  // Guardamos el mensaje del usuario en la memoria.
   conversationHistory.push({
     role: "user",
-    parts: [
-      {
-        text
-      }
-    ]
+    parts: [{ text: text }]
   });
 
   userInput.value = "";
   userInput.disabled = true;
 
-  const loadingMessage = addMessage(
-    "EcoBot está pensando... 🌿",
-    "bot"
-  );
+  const loadingMessage = addMessage("EcoBot está pensando... 🌿", "bot");
+  const loadingBubble = loadingMessage.querySelector(".bubble");
 
   try {
     const response = await fetch("/api/chat", {
@@ -47,29 +35,32 @@ chatForm.addEventListener("submit", async function (event) {
       })
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
 
-    const reply =
-      data.reply ||
-      data.error ||
-      "No pude responder en este momento.";
+    let data;
 
-    loadingMessage.querySelector(".bubble").textContent = reply;
-
-    // Guardamos la respuesta de EcoBot en la memoria.
-    if (data.reply) {
-      conversationHistory.push({
-        role: "model",
-        parts: [
-          {
-            text: data.reply
-          }
-        ]
-      });
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      throw new Error("El servidor devolvió una respuesta inválida.");
     }
+
+    if (!response.ok) {
+      throw new Error(data.error || "Error al conectar con Gemini.");
+    }
+
+    const reply = data.reply || "No pude generar una respuesta.";
+
+    loadingBubble.textContent = reply;
+
+    conversationHistory.push({
+      role: "model",
+      parts: [{ text: reply }]
+    });
   } catch (error) {
-    loadingMessage.querySelector(".bubble").textContent =
-      "Hubo un error conectando con la inteligencia artificial.";
+    console.error(error);
+    loadingBubble.textContent =
+      "Error: " + (error.message || "No pude conectar con la IA.");
   } finally {
     userInput.disabled = false;
     userInput.focus();
@@ -100,26 +91,24 @@ function addMessage(text, sender) {
 
   message.appendChild(avatarImg);
   message.appendChild(bubble);
-
   messages.appendChild(message);
+
   messages.scrollTop = messages.scrollHeight;
 
   return message;
 }
 
-newChatBtn.addEventListener("click", function () {
-  // Borra la memoria de la conversación.
-  conversationHistory = [];
+if (newChatBtn) {
+  newChatBtn.addEventListener("click", function () {
+    conversationHistory = [];
+    messages.innerHTML = "";
 
-  // Borra los mensajes visibles.
-  messages.innerHTML = "";
+    addMessage(
+      "¡Hola! Soy EcoBot 🌿 ¿En qué puedo ayudarte hoy?",
+      "bot"
+    );
 
-  addMessage(
-    "¡Hola! Soy EcoBot 🌿 Estoy listo para ayudarte. ¿Qué te gustaría saber?",
-    "bot"
-  );
-
-  userInput.value = "";
-  userInput.focus();
-});
-```
+    userInput.value = "";
+    userInput.focus();
+  });
+}
