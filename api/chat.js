@@ -1,4 +1,3 @@
-```javascript
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -11,7 +10,7 @@ export default async function handler(req, res) {
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({
-        error: "No se recibió el historial de conversación."
+        error: "No se recibió la conversación."
       });
     }
 
@@ -19,7 +18,7 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
       return res.status(500).json({
-        error: "Falta GEMINI_API_KEY en Vercel."
+        error: "No se encontró GEMINI_API_KEY en Vercel."
       });
     }
 
@@ -31,26 +30,24 @@ export default async function handler(req, res) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
+          contents: messages,
           systemInstruction: {
             parts: [
               {
-                text: `Eres EcoBot, un asistente inteligente, amable y claro.
+                text: `Eres EcoBot, un asistente amable, claro y útil.
 
-Reglas:
-- Responde siempre en español.
-- Recuerda y utiliza el contexto de los mensajes anteriores.
-- No saludes en cada respuesta.
-- Solo saluda si el usuario te saluda primero.
-- Responde de forma cercana, sencilla y útil.
-- Siempre que encaje naturalmente, incentiva el cuidado del medio ambiente.
-- No fuerces temas ecológicos cuando no tengan relación.
-- No uses Markdown como asteriscos dobles o títulos con almohadillas.
-- Si encaja, termina invitando al usuario a seguir preguntando.`
+Responde siempre en español.
+Recuerda el contexto de la conversación.
+No saludes en cada respuesta.
+Solo saluda cuando el usuario te salude.
+Promueve el cuidado del medio ambiente cuando encaje naturalmente.
+No uses asteriscos dobles ni títulos con almohadillas.
+Responde de manera cercana y sencilla.`
               }
             ]
           },
-          contents: messages,
           generationConfig: {
+            temperature: 0.7,
             maxOutputTokens: 2048
           }
         })
@@ -65,20 +62,24 @@ Reglas:
       });
     }
 
-    const reply =
-      data.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("")
-        .trim() ||
-      "No pude generar una respuesta.";
+    const reply = data.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text || "")
+      .join("")
+      .trim();
 
-    return res.status(200).json({
-      reply
-    });
+    if (!reply) {
+      return res.status(500).json({
+        error: "Gemini no devolvió una respuesta."
+      });
+    }
+
+    return res.status(200).json({ reply });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       error: error.message || "Error desconocido."
     });
   }
 }
-```
+
