@@ -1,19 +1,26 @@
+```javascript
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método no permitido" });
+    return res.status(405).json({
+      error: "Método no permitido"
+    });
   }
 
   try {
-    const { message } = req.body;
+    const { messages } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ error: "Mensaje vacío" });
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({
+        error: "No se recibió el historial de conversación."
+      });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ error: "Falta GEMINI_API_KEY en Vercel." });
+      return res.status(500).json({
+        error: "Falta GEMINI_API_KEY en Vercel."
+      });
     }
 
     const response = await fetch(
@@ -24,33 +31,28 @@ export default async function handler(req, res) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-              text: `Eres EcoBot, un asistente inteligente, amable, claro y natural.
+          systemInstruction: {
+            parts: [
+              {
+                text: `Eres EcoBot, un asistente inteligente, amable y claro.
 
-Personalidad:
-- Respondes siempre en español.
-- Hablas de forma cercana y sencilla.
-- No saludas en cada respuesta.
-- Solo saludas si el usuario te saluda primero.
-- Siempre que puedas, incentivas el cuidado del medio ambiente de forma sutil.
-- No fuerces temas ecológicos si no tienen relación.
-- Puedes dar pequeños consejos ecológicos cuando encajen naturalmente.
-- Evitas respuestas demasiado largas salvo que el usuario lo pida.
-- No uses formato Markdown como **negritas**.
-- Al final, si encaja, cierra con una frase amable como: "Si tienes alguna duda, aquí estoy para ayudarte 🌿"
-
-Usuario: ${message}`
-                }
-              ]
-            }
-          ],
-        generationConfig: {
-    temperature: 0.7,
-    maxOutputTokens: 2048
-}
+Reglas:
+- Responde siempre en español.
+- Recuerda y utiliza el contexto de los mensajes anteriores.
+- No saludes en cada respuesta.
+- Solo saluda si el usuario te saluda primero.
+- Responde de forma cercana, sencilla y útil.
+- Siempre que encaje naturalmente, incentiva el cuidado del medio ambiente.
+- No fuerces temas ecológicos cuando no tengan relación.
+- No uses Markdown como asteriscos dobles o títulos con almohadillas.
+- Si encaja, termina invitando al usuario a seguir preguntando.`
+              }
+            ]
+          },
+          contents: messages,
+          generationConfig: {
+            maxOutputTokens: 2048
+          }
         })
       }
     );
@@ -58,19 +60,25 @@ Usuario: ${message}`
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(500).json({
-        error: data.error?.message || "Error de Gemini"
+      return res.status(response.status).json({
+        error: data.error?.message || "Error al comunicarse con Gemini."
       });
     }
 
     const reply =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      data.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || "")
+        .join("")
+        .trim() ||
       "No pude generar una respuesta.";
 
-    return res.status(200).json({ reply });
+    return res.status(200).json({
+      reply
+    });
   } catch (error) {
     return res.status(500).json({
-      error: error.message || "Error desconocido"
+      error: error.message || "Error desconocido."
     });
   }
 }
+```
