@@ -1,69 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoBot</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="app">
-    <aside class="sidebar">
-     <div class="logo">
-  <img src="0fc99b96-e277-41a7-8444-7b1af90d04b7 (1).png" class="logo-img" alt="EcoBot">
-  <h1>EcoBot</h1>
-</div>
-
-    <button class="new-chat" id="newChat">+ Nuevo chat</button>
-      <div class="info-card">
-        <h3>Asistente ecológico</h3>
-        <p>Pregunta lo que quieras. EcoBot está aquí para ayudarte.</p>
-      </div>
-    </aside>
-
-    <main class="chat-container">
-      <header class="chat-header">
-  <div class="bot-info">
-    <img src="0fc99b96-e277-41a7-8444-7b1af90d04b7 (1).png" class="bot-avatar" alt="EcoBot">
-
-    <div>
-      <h2>EcoBot</h2>
-      <p>Tu asistente inteligente personal</p>
-    </div>
-  </div>
-
-  <div class="user-info">
-    <img src="User pfp.webp" class="user-avatar" alt="Usuario">
-    <span>Santiago</span>
-  </div>
-</header>
-
-      <section class="messages" id="messages">
-        <div class="message bot">
-        <img
-  src="0fc99b96-e277-41a7-8444-7b1af90d04b7 (1).png"
-  class="bot-avatar chat"
-  alt="EcoBot"
-/>
-
-<div class="bubble">
-  ¡Hola! Soy EcoBot 🌿 ¿En qué puedo ayudarte hoy?
-</div>
-      </section>
-
-      <form class="input-area" id="chatForm">
-        <input 
-          type="text" 
-          id="userInput" 
-          placeholder="Escribe tu mensaje..." 
-          autocomplete="off"
-        />
-        <button type="submit">➤</button>
-      </form>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><title>EcoBot | Tu espacio verde</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+<body><div class="app">
+<aside class="sidebar" id="sidebar"><div class="brand"><div class="brand-mark">✳</div><div><strong>EcoBot</strong><small>Tu espacio verde</small></div></div>
+<button class="primary side-new" id="newChat">＋ Nuevo chat</button>
+<p class="nav-label">EXPLORA</p><button class="nav-item active" id="navChat">◉ &nbsp; Asistente IA</button><button class="nav-item" data-prompt="Dame 5 consejos prácticos para vivir de forma más sostenible.">♻ &nbsp; Consejos ecológicos</button><button class="nav-item" data-prompt="Enséñame a reciclar correctamente en casa.">▦ &nbsp; Guía de reciclaje</button><button class="nav-item" data-prompt="Dame ideas para ahorrar agua y electricidad.">◈ &nbsp; Ahorro de recursos</button>
+<div class="sidebar-bottom"><div class="tip"><span>🌱</span><strong>Pequeños cambios, gran impacto.</strong><p>Aprende a cuidar el planeta, una pregunta a la vez.</p></div><p class="foot">EcoBot · Hecho para un futuro mejor</p></div></aside>
+<div class="backdrop" id="backdrop"></div>
+<main class="main"><header class="topbar"><div class="top-left"><button class="icon-button menu" id="menuBtn" aria-label="Abrir menú">☰</button><div class="top-brand"><span class="mini-mark">✳</span><div><strong>EcoBot</strong><small><i class="dot"></i> Asistente ecológico</small></div></div></div><div class="top-actions"><button class="icon-button" id="copyChat" title="Copiar conversación" aria-label="Copiar conversación">▤</button><button class="icon-button" id="clearChat" title="Reiniciar conversación" aria-label="Reiniciar conversación">↻</button><div class="user-badge">S</div></div></header>
+<section class="chat-scroll" id="messages" aria-live="polite"><div class="welcome" id="welcome"><div class="welcome-icon">✳</div><span class="eyebrow">TU ASISTENTE ECOLÓGICO</span><h1>Un mundo más verde<br><em>empieza contigo.</em></h1><p>Pregunta, aprende y descubre ideas sencillas para cuidar nuestro planeta.</p><div class="suggestions"><button class="suggestion" data-prompt="¿Cómo puedo empezar a reciclar en casa?"><span>♻️</span><strong>Aprende a reciclar</strong><small>Separa mejor tus residuos</small><b>↗</b></button><button class="suggestion" data-prompt="¿Cómo puedo ahorrar agua en mi día a día?"><span>💧</span><strong>Ahorra agua</strong><small>Hábitos que sí funcionan</small><b>↗</b></button><button class="suggestion" data-prompt="Dame 5 ideas ecológicas para mi escuela."><span>🌿</span><strong>Ideas sostenibles</strong><small>Haz la diferencia hoy</small><b>↗</b></button><button class="suggestion" data-prompt="Explícame el cambio climático de forma sencilla."><span>🌎</span><strong>Cuida el planeta</strong><small>Entiende nuestro impacto</small><b>↗</b></button></div></div><div class="conversation" id="conversation"></div></section>
+<div class="composer-area"><form class="composer" id="chatForm"><textarea id="userInput" rows="1" maxlength="4000" placeholder="Pregúntale algo a EcoBot..." aria-label="Tu mensaje"></textarea><button class="send" id="sendBtn" type="submit" aria-label="Enviar mensaje">➤</button></form><p class="disclaimer">EcoBot puede cometer errores. Verifica la información importante.</p></div></main></div><script src="script.js"></script></body></html>
